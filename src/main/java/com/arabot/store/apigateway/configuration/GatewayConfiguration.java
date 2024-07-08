@@ -1,6 +1,5 @@
 package com.arabot.store.apigateway.configuration;
 
-import com.arabot.store.apigateway.filter.EncryptedHeaderFilter;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,9 +16,6 @@ public class GatewayConfiguration {
     @Autowired
     private DiscoveryClient discoveryClient;
 
-    @Autowired
-    private EncryptedHeaderFilter encryptedHeaderFilter;
-
     @Value("${microservice.auth.server}")
     private String auth_server;
 
@@ -33,20 +29,14 @@ public class GatewayConfiguration {
     public RouteLocator gatewayRoutes(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route("users", r -> r.path("/users/**")
-                        .filters(f -> f.filter(encryptedHeaderFilter.apply(new EncryptedHeaderFilter.Config())))
                         .uri(getUrl(auth_server)))
                 .route("products", r -> r.path("/products/**")
-                        .filters(f -> f.filter(encryptedHeaderFilter.apply(new EncryptedHeaderFilter.Config())))
                         .uri(getUrl(products_api)))
                 .route("categories", r -> r.path("/categories/**")
-                        .filters(f -> f.filter(encryptedHeaderFilter.apply(new EncryptedHeaderFilter.Config())))
-                        .uri(getUrl(products_api)))
-                .route("cart", r -> r.path("/cart/**")
-                        .filters(f -> f.filter(encryptedHeaderFilter.apply(new EncryptedHeaderFilter.Config())))
-                        .uri(getUrl(cart_api)))
-                .route("test", r -> r.path("/test/**")
-                        .uri("http://localhost:8081"))
-                .build();
+                        .uri(getUrl(products_api))).
+                route("cart", r -> r.path("/cart/**")
+                        .uri(cart_api))
+                        .build();
     }
 
     private String getUrl(String serviceName) {
