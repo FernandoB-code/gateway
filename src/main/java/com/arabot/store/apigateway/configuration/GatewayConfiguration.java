@@ -33,9 +33,9 @@ public class GatewayConfiguration {
                 .route("products", r -> r.path("/products/**")
                         .uri(getUrl(products_api)))
                 .route("categories", r -> r.path("/categories/**")
-                        .uri(getUrl(products_api))).
-                route("cart", r -> r.path("/cart/**")
-                        .uri(cart_api))
+                        .uri(getUrl(products_api)))
+                .route("cart", r -> r.path("/cart/**")
+                        .uri(getUrl(cart_api)))
                         .build();
     }
 
