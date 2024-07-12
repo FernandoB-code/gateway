@@ -29,13 +29,13 @@ public class GatewayConfiguration {
     public RouteLocator gatewayRoutes(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route("users", r -> r.path("/users/**")
-                        .uri(getUrl(auth_server)))
+                        .uri(auth_server))
                 .route("products", r -> r.path("/products/**")
-                        .uri(getUrl(products_api)))
+                        .uri((products_api)))
                 .route("categories", r -> r.path("/categories/**")
-                        .uri(getUrl(products_api)))
+                        .uri(products_api))
                 .route("cart", r -> r.path("/cart/**")
-                        .uri(getUrl(cart_api)))
+                        .uri(cart_api))
                         .build();
     }
 
